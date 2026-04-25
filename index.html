@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERZ Mühendislik – Proje, Danışmanlık, Keşif & Denetim</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --dark: #111214;
+    --panel: #16181c;
+    --border: #2a2d35;
+    --accent: #f5a623;
+    --accent2: #1a6eff;
+    --text: #e8e9eb;
+    --muted: #6b7280;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 72px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: var(--black) !important;
+    padding: 8px 20px;
+    font-weight: 600 !important;
+    transition: opacity 0.2s !important;
+  }
+
+  .nav-cta:hover { opacity: 0.85; color: var(--black) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 72px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 80% 50%, rgba(245,166,35,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(26,110,255,0.05) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(42,45,53,0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(42,45,53,0.3) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 64px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 6vw, 88px);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 440px;
+    margin-bottom: 48px;
+    line-height: 1.8;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--black);
+    padding: 14px 32px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(245,166,35,0.3);
+  }
+
+  .btn-outline {
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 32px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    padding: 80px 48px;
+  }
+
+  .hero-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+  }
+
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 0;
+    width: 60%;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .hero-card-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .stat-item {}
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .cert-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cert-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .cert-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* SECTIONS */
+  section { padding: 100px 48px; }
+
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-tag::after {
+    content: '';
+    flex: 1;
+    max-width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 4vw, 56px);
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 560px;
+    margin-bottom: 64px;
+    line-height: 1.8;
+  }
+
+  /* HIZMETLER */
+  #hizmetler { background: var(--dark); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card:last-child {
+    grid-column: 3 / 4;
+  }
+
+  .service-card {
+    background: var(--panel);
+    padding: 40px 36px;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: border-color 0.3s;
+    cursor: default;
+  }
+
+  .service-card:hover {
+    border-color: var(--accent);
+  }
+
+  .service-card:hover .service-icon {
+    background: var(--accent);
+    color: var(--black);
+  }
+
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(245,166,35,0.1);
+    color: var(--accent);
+    font-size: 22px;
+    margin-bottom: 24px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .service-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .service-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .service-list {
+    margin-top: 16px;
+    list-style: none;
+  }
+
+  .service-list li {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(42,45,53,0.5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .service-list li::before {
+    content: '→';
+    color: var(--accent);
+    font-size: 10px;
+  }
+
+  /* HAKKIMIZDA */
+  #hakkimizda {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-left {}
+
+  .about-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .feature-item {
+    padding: 20px;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+
+  .feature-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+  }
+
+  .feature-title {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .feature-text {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .about-right {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 48px;
+    position: relative;
+  }
+
+  .about-right::after {
+    content: 'ERZ';
+    position: absolute;
+    bottom: 24px;
+    right: 32px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: rgba(245,166,35,0.05);
+    letter-spacing: 8px;
+    line-height: 1;
+  }
+
+  .about-quote {
+    font-size: 18px;
+    color: var(--text);
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .about-quote::before {
+    content: '"';
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: var(--accent);
+    line-height: 0.5;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .about-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* NEDEN BİZ */
+  #neden { background: var(--dark); }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .why-item {
+    background: var(--panel);
+    padding: 36px 28px;
+    border: 1px solid var(--border);
+    text-align: center;
+    transition: transform 0.3s;
+  }
+
+  .why-item:hover { transform: translateY(-4px); }
+
+  .why-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: var(--accent);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .why-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .why-text {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* İLETİŞİM */
+  #iletisim {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-info {}
+
+  .contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px;
+    border: 1px solid var(--border);
+  }
+
+  .contact-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(245,166,35,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .contact-value {
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .contact-form {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 48px;
+  }
+
+  .contact-form h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .form-input, .form-textarea {
+    width: 100%;
+    background: var(--black);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .form-textarea {
+    height: 120px;
+    resize: vertical;
+  }
+
+  .form-submit {
+    width: 100%;
+    background: var(--accent);
+    color: var(--black);
+    border: none;
+    padding: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    margin-top: 8px;
+  }
+
+  .form-submit:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--white);
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  .footer-est {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* SCROLL ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 60px 24px; }
+    section { padding: 60px 24px; }
+    .services-grid { grid-template-columns: 1fr; }
+    #hakkimizda { grid-template-columns: 1fr; gap: 40px; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    #iletisim { grid-template-columns: 1fr; gap: 40px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo" style="display:flex;align-items:center;gap:12px;">
+    <img src="data:image/jpeg;base64,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" alt="ERZ Logo" style="width:40px;height:40px;object-fit:contain;border-radius:4px;">
+    ERZ <span>MÜHENDİSLİK</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#hizmetler">Hizmetler</a></li>
+    <li><a href="#hakkimizda">Hakkımızda</a></li>
+    <li><a href="#neden">Neden Biz</a></li>
+    <li><a href="#iletisim" class="nav-cta">İletişim</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-left">
+    <div class="hero-tag">Proje · Danışmanlık · Keşif & Maliyet · Teknik Dokümantasyon · Denetim</div>
+    <h1>GÜÇLENDİRİN<br><em>SİSTEMLERİNİZİ</em></h1>
+    <p class="hero-desc">
+      Kamu ve özel sektör tecrübesiyle; her ölçekte elektrik projesini teknik standartlara tam uygun, sahada uygulanabilir ve zamanında teslim prensibiyle gerçekleştiriyoruz.
+    </p>
+    <div class="hero-actions">
+      <a href="#iletisim" class="btn-primary">Proje Teklifi Alın</a>
+      <a href="#hizmetler" class="btn-outline">Hizmetlerimiz</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="hero-card-title">// ERZ Mühendislik · Kuruluş 2025</div>
+      <div class="stat-grid">
+        <div class="stat-item">
+          <div class="stat-num">6+</div>
+          <div class="stat-label">Hizmet Kategorisi</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Sektör Deneyimi</div>
+        </div>
+      </div>
+      <div class="cert-list">
+        <div class="cert-item"><div class="cert-dot"></div>Kuvvetli & Zayıf Akım Projeleri</div>
+        <div class="cert-item"><div class="cert-dot"></div>GES & Enerji Sistemleri</div>
+        <div class="cert-item"><div class="cert-dot"></div>Kamu İhale Dosyaları</div>
+        <div class="cert-item"><div class="cert-dot"></div>Saha Denetimi & Hakediş</div>
+        <div class="cert-item"><div class="cert-dot"></div>Teknik Standartlara Tam Uyum</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HİZMETLER -->
+<section id="hizmetler">
+  <div class="section-tag">Hizmetlerimiz</div>
+  <h2>UZMANLИК ALANLARIMIZ</h2>
+  <p class="section-sub">Her projede uygulanabilir, ekonomik ve standartlara uygun çözümler sunuyoruz.</p>
+
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-icon">📐</div>
+      <div class="service-title">Proje</div>
+      <div class="service-desc">Kuvvetli ve zayıf akım sistemlerini kapsayan kapsamlı elektrik tesisat projelendirme hizmetleri.</div>
+      <ul class="service-list">
+        <li>Elektrik tesisat uygulama & ruhsat projeleri</li>
+        <li>Bina & endüstriyel tesis projeleri</li>
+        <li>GES (Güneş Enerjisi) projeleri</li>
+        <li>Zayıf akım sistem projeleri</li>
+        <li>Enerji altyapı projeleri</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">💡</div>
+      <div class="service-title">Danışmanlık</div>
+      <div class="service-desc">Kamu ve özel sektörde teknik bilgi ve saha deneyimiyle güvenilir mühendislik danışmanlığı.</div>
+      <ul class="service-list">
+        <li>Elektrik-elektronik mühendisliği danışmanlığı</li>
+        <li>Enerji verimliliği danışmanlığı</li>
+        <li>Sistem tasarım & optimizasyon</li>
+        <li>İhale süreçleri teknik danışmanlığı</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">📊</div>
+      <div class="service-title">Keşif, Metraj & Maliyet</div>
+      <div class="service-desc">Gerçekçi ve optimize edilmiş keşif, metraj ve maliyet analizleriyle rekabetçi teklifler.</div>
+      <ul class="service-list">
+        <li>Sıfırdan elektrik keşfi</li>
+        <li>Metraj & yaklaşık maliyet hesabı</li>
+        <li>Mukayeseli keşif & analiz</li>
+        <li>Maliyet optimizasyonu</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">📑</div>
+      <div class="service-title">Teknik Dokümantasyon</div>
+      <div class="service-desc">Kamu ve özel sektör projelerinde eksiksiz teknik doküman ve ihale dosyası hazırlama.</div>
+      <ul class="service-list">
+        <li>Teknik şartname hazırlama</li>
+        <li>Kamu ihale dosyaları</li>
+        <li>Uygulama dokümanları</li>
+        <li>As-built (son durum) projeleri</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">🏗️</div>
+      <div class="service-title">Denetim</div>
+      <div class="service-desc">Uygulama başından sonuna kadar teknik kontrol, hakediş yönetimi ve saha denetimi.</div>
+      <ul class="service-list">
+        <li>Saha uygulama kontrolü</li>
+        <li>Hakediş raporları</li>
+        <li>Teknik uygunluk denetimi</li>
+        <li>Proje teslim süreç yönetimi</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- HAKKIMIZDA -->
+<section id="hakkimizda">
+  <div class="about-left reveal">
+    <div class="section-tag">Hakkımızda</div>
+    <h2>SAHADAN GELEN<br>MÜHENDİSLİK</h2>
+    <p class="section-sub">
+      Kamu ve özel sektör deneyimini bir çatı altında buluşturan ERZ Mühendislik; projeyi yalnızca tasarlamakla kalmaz, sahada uygulanabilirliğini de garanti altına alır.
+    </p>
+    <div class="about-features">
+      <div class="feature-item">
+        <div class="feature-title">Uygulanabilir Çözüm</div>
+        <div class="feature-text">Sadece proje değil, sahada çalışan sistemler</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-title">Ekonomik Tasarım</div>
+        <div class="feature-text">Maliyet optimizasyonu ile rekabetçi teklifler</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-title">Standartlara Uyum</div>
+        <div class="feature-text">Tüm teknik mevzuat ve yönetmeliklere tam uyum</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-title">Zamanında Teslim</div>
+        <div class="feature-text">Disiplinli çalışma ile söz verilen tarihte teslim</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-right reveal">
+    <div class="about-quote">
+      Projeleri yalnızca tasarlayan değil, sahada uygulanabilirliğini de garanti altına alan bir yaklaşım benimsiyoruz. Her detay, gerçek sahayı bilen bir mühendis gözüyle tasarlanıyor.
+    </div>
+    <div class="about-meta">ERZ Mühendislik · Kuruluş Ağustos 2025</div>
+  </div>
+</section>
+
+<!-- NEDEN BİZ -->
+<section id="neden">
+  <div style="text-align:center; max-width: 600px; margin: 0 auto 64px;">
+    <div class="section-tag" style="justify-content:center;">Neden ERZ</div>
+    <h2>FARKIMIZ</h2>
+    <p class="section-sub" style="margin: 0 auto;">Teknik bilgi ve saha deneyiminin birleştiği noktada kaliteli mühendislik çözümleri sunuyoruz.</p>
+  </div>
+
+  <div class="why-grid reveal">
+    <div class="why-item">
+      <div class="why-num">01</div>
+      <div class="why-title">Çift Sektör Deneyimi</div>
+      <div class="why-text">Kamu ve özel sektördeki geniş tecrübeyle her ölçekte projeye hakimiyet</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">02</div>
+      <div class="why-title">Bütüncül Yaklaşım</div>
+      <div class="why-text">Projeden sahaya, şartnameden hakediş yönetimine kadar tam kapsamlı hizmet</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">03</div>
+      <div class="why-title">Optimize Maliyet</div>
+      <div class="why-text">Gerçekçi ve rekabetçi fiyatlandırma, bütçe aşımı olmadan teslim</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num">04</div>
+      <div class="why-title">Güvenilir Teslim</div>
+      <div class="why-text">Disiplinli çalışma anlayışı ve zamanında teslim taahhüdü</div>
+    </div>
+  </div>
+</section>
+
+<!-- İLETİŞİM -->
+<section id="iletisim">
+  <div class="contact-info reveal">
+    <div class="section-tag">İletişim</div>
+    <h2>PROJENİZİ<br>KONUŞALIM</h2>
+    <p class="section-sub">Projeniz için ücretsiz ön değerlendirme ve teklif almak için bizimle iletişime geçin.</p>
+
+    <div class="contact-items">
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div>
+          <div class="contact-label">E-Posta</div>
+          <div class="contact-value">erzmuh74@gmail.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Telefon</div>
+          <div class="contact-value">0541 593 0513</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Konum</div>
+          <div class="contact-value">Bartın — Tüm Türkiye'ye Hizmet</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form reveal">
+    <h3>TEKLİF ALIN</h3>
+    <div class="form-group">
+      <label class="form-label">Ad Soyad</label>
+      <input type="text" class="form-input" placeholder="Adınız Soyadınız">
+    </div>
+    <div class="form-group">
+      <label class="form-label">E-Posta</label>
+      <input type="email" class="form-input" placeholder="ornek@sirket.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Telefon</label>
+      <input type="tel" class="form-input" placeholder="05XX XXX XX XX">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Proje Detayı</label>
+      <textarea class="form-textarea" placeholder="Projeniz hakkında kısa bilgi veriniz..."></textarea>
+    </div>
+    <button class="form-submit">Teklif Talep Et →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo" style="display:flex;align-items:center;gap:10px;">
+    <img src="data:image/jpeg;base64,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" alt="ERZ Logo" style="width:32px;height:32px;object-fit:contain;">
+    ERZ <span>MÜHENDİSLİK</span>
+  </div>
+  <div class="footer-copy">© 2025 ERZ Mühendislik. Tüm hakları saklıdır.</div>
+  <div class="footer-est">EST. 08.2025</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav active state
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    nav.style.borderBottomColor = window.scrollY > 50 ? 'rgba(245,166,35,0.2)' : 'var(--border)';
+  });
+</script>
+</body>
+</html>
